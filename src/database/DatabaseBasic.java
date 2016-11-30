@@ -45,6 +45,7 @@ public class DatabaseBasic {
             Statement statement = null;
             try {
                 statement = mConnection.createStatement();
+                System.out.println("sql: " + sql);
                 result = statement.executeQuery(sql);
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -15,7 +15,7 @@ public class UserDb{
     private static DatabaseBasic mSqlHelper;
     public static User selectUserById(String id){
         User user = null;
-        String sql = "select * from user where id = " + id;
+        String sql = "select * from user where id = \'" + id + "\'";
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         user = getUser(resultSet, mSqlHelper);
@@ -35,7 +35,7 @@ public class UserDb{
     public static User selectIndividual(String id, String name)
     {
         User user = null;
-        String sql = "select * from user where id = " + id + " and name = " + name;
+        String sql = "select * from user where id = \'" + id + "\' and name = \'" + name + "\'";
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         user = getUser(resultSet, mSqlHelper);
@@ -73,7 +73,7 @@ public class UserDb{
 
     public static void updateAdmin(String permission, String id, String name)
     {
-        String sql = "update user set permission = " + permission + " where id = " + id + " and name = " + name;
+        String sql = "update user set permission = \'" + permission + "\' where id = \'" + id + "\' and name = \'" + name + "\'";
         execSql(sql);
     }
 
@@ -81,27 +81,27 @@ public class UserDb{
             , String branch, String grade, String email, String type)
     {
         String sql = "insert into user (id, name, sex, institute, dormitory, tel, branch, grade, email, type) " +
-                "values (" +
-                id + "," +
-                name + "," +
-                sex + "," +
-                institute + "," +
-                dormitory + "," +
-                tel + "," +
-                branch + "," +
-                grade + "," +
-                email + "," +
-                type + ") on duplicate key update " +
-                "name = " + name + ", sex = " + sex + ", institute = " + institute + ", dormitory = " + dormitory +
-                ", tel = " + tel + ", branch = " + branch + ", grade = " + grade + ", email = " + email + ", type = " +
-                type;
+                "values (\'" +
+                id + "\',\'" +
+                name + "\',\'" +
+                sex + "\',\'" +
+                institute + "\',\'" +
+                dormitory + "\',\'" +
+                tel + "\',\'" +
+                branch + "\',\'" +
+                grade + "\',\'" +
+                email + "\',\'" +
+                type + "\') on duplicate key update " +
+                "name = \'" + name + "\', sex = \'" + sex + "\', institute = \'" + institute + "\', dormitory = \'" + dormitory +
+                "\', tel = \'" + tel + "\', branch = \'" + branch + "\', grade = \'" + grade + "\', email = \'" + email + "\', type = \'" +
+                type + "\'";
         execSql(sql);
     }
 
     public static void insertStudentClass(String id, String stuClass)
     {
         String sql = "insert into userinclass (userId, classId)" +
-            "values (" + id + ", " + stuClass + ")";
+            "values (\'" + id + "\', \'" + stuClass + "\')";
         execSql(sql);
     }
 
@@ -116,7 +116,7 @@ public class UserDb{
      */
     public static void updateUserPermission(String permission, String id, String password)
     {
-        String sql = "update user set permission = " + permission + ", password = " + password + " where id = " + id;
+        String sql = "update user set permission = " + permission + ", password = \'" + password + "\' where id = \'" + id + "\'";
         execSql(sql);
     }
 
@@ -132,7 +132,7 @@ public class UserDb{
             Set<String> keys = conditions.keySet();
             for (String key : keys) {
                 String value = conditions.get(key);
-                sql += (key + " = " + value + " and ");
+                sql += (key + " = \'" + value + "\' and ");
             }
             sql = sql.substring(0, sql.lastIndexOf("and"));
         }
@@ -175,7 +175,7 @@ public class UserDb{
 
     public static boolean userNotExists(String id)
     {
-        String sql = "select * from user where id = " + id;
+        String sql = "select * from user where id = \'" + id + "\'";
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         try {
@@ -190,7 +190,7 @@ public class UserDb{
 
     public static void removeStudent(String studentId)
     {
-        String sql = "delete from user where id = " + studentId;
+        String sql = "delete from user where id = \'" + studentId + "\'";
         execSql(sql);
     }
 }

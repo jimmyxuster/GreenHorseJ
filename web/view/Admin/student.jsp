@@ -3,7 +3,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="database.UserDb" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%@ page import="utils.StringUtils" %><%--
   Created by IntelliJ IDEA.
   User: jimmyhsu
   Date: 2016/11/30
@@ -29,16 +30,25 @@
         List<User> users;
         Map<String, String> conditions = new HashMap<String, String>();
         String orderby = "";
-        if(request.getParameter("searchId") != null && !request.getParameter("searchId").equals("")){
-            conditions.put("id", request.getParameter("searchId"));
-        }
-        if(request.getParameter("searchName") != null && !request.getParameter("searchName").equals("")){
-            conditions.put("name", request.getParameter("searchName"));
-        }
-//        if(request.getParameter("searchClassName") != null){
-//            conditions.put("searchClassName", request.getParameter("searchClassName"));
-//        }
 
+        if(request.getParameter("searchId") != null){
+            String searchId = StringUtils.getUtf8String(request.getParameter("searchId"));
+            if (!"".equals(searchId)) {
+                conditions.put("id", request.getParameter("searchId"));
+            }
+        }
+        if (request.getParameter("searchName") != null) {
+            String searchName = StringUtils.getUtf8String(request.getParameter("searchName"));
+            if (!searchName.equals("")){
+                conditions.put("name", searchName);
+            }
+        }
+        if (request.getParameter("searchClassName") != null) {
+            String searchClassName = StringUtils.getUtf8String(request.getParameter("searchClassName"));
+            if (!searchClassName.equals("")){
+                conditions.put("className", searchClassName);
+            }
+        }
         if(request.getParameter("orderby") != null && !request.getParameter("orderby").equals("")){
             orderby = request.getParameter("orderby");
         }
