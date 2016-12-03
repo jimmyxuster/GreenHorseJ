@@ -55,7 +55,7 @@
     </tr>
     <% }%>
 </table>
-<form name='form' id='form' method='post' action='Do/saveAttendance.php'>
+<form name='form' id='form' method='post' action='Do/saveAttendance.jsp'>
     <input type='hidden' name='studentAttendance' id='studentAttendance'>
     <input type='hidden' name='courseId' value='<%=courseId%>'>
 

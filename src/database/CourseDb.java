@@ -136,7 +136,7 @@ public class CourseDb {
 
     private static void execSql(String sql) {
         mSqlHelper = new DatabaseBasic();
-        mSqlHelper.executeSql(sql);
+        mSqlHelper.executeSqlUpdate(sql);
         mSqlHelper.recycle();
     }
 
@@ -450,23 +450,5 @@ public class CourseDb {
         }
         return count;
     }
-
-//    public function selectCoursesCount(){
-//        $text = "select count(*) from course";
-//        $sql = sprintf($text);
-//        $db = new database();
-//        $link = $db->start();
-//        $result = $db->execute_sql("select", $sql);
-//        if(mysql_num_rows($result)) {
-//            $rs = mysql_fetch_array($result);
-//            $count = $rs[0];
-//        }else{
-//            $count = 0;
-//        }
-//        mysql_close($link);
-//        return $count;
-//    }
-
-
 }
 

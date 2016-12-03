@@ -38,18 +38,18 @@ public class DatabaseBasic {
         }
 
         public ResultSet executeSql(String sql){
-            if (mConnection == null) {
-                return null;
-            }
-            ResultSet result = null;
-            Statement statement = null;
-            try {
-                statement = mConnection.createStatement();
-                System.out.println("sql: " + sql);
-                result = statement.executeQuery(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
+        if (mConnection == null) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = mConnection.createStatement();
+            System.out.println("sql: " + sql);
+            result = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
 //                if (statement != null) {
 //                    try {
 //                        statement.close();
@@ -57,9 +57,33 @@ public class DatabaseBasic {
 //                        e.printStackTrace();
 //                    }
 //                }
-            }
-            return result;
         }
+        return result;
+    }
+
+    public boolean executeSqlUpdate(String sql){
+        if (mConnection == null) {
+            return false;
+        }
+        boolean result = false;
+        Statement statement = null;
+        try {
+            statement = mConnection.createStatement();
+            System.out.println("sql: " + sql);
+            result = statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+//                if (statement != null) {
+//                    try {
+//                        statement.close();
+//                    } catch (SQLException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+        }
+        return result;
+    }
 
         public void recycle() {
             if (mConnection != null) {
