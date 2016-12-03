@@ -159,6 +159,23 @@ public class User {
         this.userInClass = userInClass;
         this.credit = credit;
     }
+    public User(String id, String name, String sex, String institute, String branch
+            , String grade, String type, String dormitory, String permission, String tel
+            , String email, String createTime, String password) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.institute = institute;
+        this.branch = branch;
+        this.grade = grade;
+        this.type = type;
+        this.dormitory = dormitory;
+        this.permission = permission;
+        this.tel = tel;
+        this.email = email;
+        this.createTime = createTime;
+        this.password = password;
+    }
 
     public User(){
 //        $userDB = new UserDB();

@@ -8,15 +8,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by Thinkpad on 2016/11/30.
  */
 public class CourseDb {
     private static DatabaseBasic mSqlHelper;
 
-    public static Course selectCourseById(String id) {
+    public static Course selectCourseById(int id) {
         Course course = null;
-        String sql = "select * from course where id = \'" + id +"\'";
+        String sql = "select * from course where id = " + id;
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         course = getCourse(resultSet, mSqlHelper);
@@ -142,14 +143,65 @@ public class CourseDb {
     /*
      * 根据studentId和courseId选出takecourse
      */
-    public static Takecourse selectTakecourse(String studentId, int courseId){
-        Takecourse takecourse = null;
+    public static String selectTakecourse(String studentId, int courseId){
+        String takecourse;
         String sql = "select * from takecourse where studentId = \'" + studentId
                 + "\' and courseId = " + courseId;
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
-        takecourse = getTakecourse(resultSet, mSqlHelper);
+        try {
+            if (resultSet.next()) {
+                takecourse = resultSet.getString("attendance");
+            } else {
+                takecourse = "error";
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            takecourse = "error";
+        }
         return takecourse;
+    }
+
+    private static TakeCourse getTakecourse(ResultSet resultSet, DatabaseBasic sqlHelper) {
+        if (resultSet != null) {
+            try {
+                while (resultSet.next()) {
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private static void getUsers(List<User> result, ResultSet resultSet) {
+        try {
+            while (resultSet.next()) {
+                User user = new User(resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("sex"),
+                        resultSet.getString("institute"),
+                        resultSet.getString("branch"),
+                        resultSet.getString("grade"),
+                        resultSet.getString("type"),
+                        resultSet.getString("dormitory"),
+                        resultSet.getString("permission"),
+                        resultSet.getString("tel"),
+                        resultSet.getString("email"),
+                        resultSet.getString("createTime"),
+                        resultSet.getString("password"));
+                result.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (mSqlHelper != null) {
+                mSqlHelper.recycle();
+                mSqlHelper = null;
+            }
+        }
     }
 
     /*
@@ -162,6 +214,12 @@ public class CourseDb {
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         getUsers(students, resultSet);
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        mSqlHelper.recycle();
         return students;
     }
 
@@ -185,6 +243,11 @@ public class CourseDb {
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         getCourses(courses, resultSet);
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return courses;
     }
 
@@ -215,6 +278,11 @@ public class CourseDb {
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         getCourses(courses, resultSet);
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return courses;
     }
 
@@ -229,6 +297,11 @@ public class CourseDb {
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         getCourses(courses, resultSet);
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return courses;
     }
 
@@ -247,6 +320,11 @@ public class CourseDb {
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         getCourses(courses, resultSet);
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return courses;
     }
 
@@ -265,6 +343,25 @@ public class CourseDb {
 //        mysql_close($link);
 //        return $count;
 //    }
+    public static int selectCoursesAfterDurationCount(int start, int length) {
+        String sql = "select count(*) from course where datetime+SEC_TO_TIME(duration*60)<now() limit " + start +
+                "," + length;
+        mSqlHelper = new DatabaseBasic();
+        ResultSet resultSet = mSqlHelper.executeSql(sql);
+        int count = 0;
+        try {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+                resultSet.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            count = 0;
+        } finally {
+            mSqlHelper.recycle();
+        }
+        return count;
+    }
 
 //    /*
 //    * 选出某门课所有的takecourse，并且还有用户的一些数据
@@ -279,17 +376,31 @@ public class CourseDb {
 //        mysql_close($link);
 //        return $result;
 //    }
+    public static ResultSet selectTakecourseAndUserInfoByCourseId(int courseId) {
+        String sql = "select takecourse.*,user.name from takecourse left outer join user " +
+          "on user.id = takecourse.studentId where takecourse.courseId = " + courseId;
+        mSqlHelper = new DatabaseBasic();
+        ResultSet resultSet = mSqlHelper.executeSql(sql);
+        mSqlHelper.recycle();
+        return resultSet;
+    }
 
     public static boolean courseNotExists(String name){
         String sql = "select * from course where name = \'" + name + "\'";
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         try {
-            return resultSet.next();
+            boolean result = resultSet.next();
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             mSqlHelper.recycle();
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -300,6 +411,11 @@ public class CourseDb {
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
         getCourses(courses, resultSet);
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return courses;
     }
 
@@ -310,6 +426,29 @@ public class CourseDb {
                 courseId + ",\'" +
                 reason + "\')";
         execSql(sql);
+    }
+
+    public static int selectCoursesCount() {
+        String sql = "select count(*) from course";
+        mSqlHelper = new DatabaseBasic();
+        ResultSet resultSet = mSqlHelper.executeSql(sql);
+        int count = 0;
+        try {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            count = 0;
+        } finally {
+            mSqlHelper.recycle();
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
     }
 
 //    public function selectCoursesCount(){

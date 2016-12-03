@@ -1,6 +1,7 @@
 package database;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Thinkpad on 2016/11/30.
@@ -15,6 +16,15 @@ public class Course {
     private int moduleId;
     private int maxNumber;
     private String restriction;
+    private List<User> students;
+
+    public List<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<User> students) {
+        this.students = students;
+    }
 
     public int getId() {
         return id;
@@ -99,6 +109,20 @@ public class Course {
         this.moduleId = moduleId;
         this.maxNumber = maxNumber;
         this.restriction = restriction;
+    }
+
+     public Course(int id, int credit, String name, Date datetime, int duration
+            , String location, int moduleId, int maxNumber, String restriction, List<User> students) {
+        this.id = id;
+        this.credit = credit;
+        this.name = name;
+        this.datetime = datetime;
+        this.duration = duration;
+        this.location = location;
+        this.moduleId = moduleId;
+        this.maxNumber = maxNumber;
+        this.restriction = restriction;
+        this.students = students;
     }
 
     public Course() {

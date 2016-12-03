@@ -50,13 +50,13 @@ public class DatabaseBasic {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (statement != null) {
-                    try {
-                        statement.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (statement != null) {
+//                    try {
+//                        statement.close();
+//                    } catch (SQLException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
             return result;
         }

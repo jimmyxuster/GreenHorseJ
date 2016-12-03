@@ -149,6 +149,7 @@ public class UserDb{
     private static void getUsers(List<User> result, ResultSet resultSet) {
         try {
             while (resultSet.next()) {
+                System.out.println(11);
                 User user = new User(resultSet.getString("id"),
                         resultSet.getString("name"),
                         resultSet.getString("sex"),
@@ -169,7 +170,10 @@ public class UserDb{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mSqlHelper.recycle();
+            if (mSqlHelper != null) {
+                mSqlHelper.recycle();
+                mSqlHelper = null;
+            }
         }
     }
 
