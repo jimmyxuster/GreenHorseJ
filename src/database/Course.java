@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Course {
     private int id;
     private int credit;
     private String name;
-    private Date datetime;
+    private Timestamp datetime;
     private int duration;
     private String location;
     private int moduleId;
@@ -50,11 +51,11 @@ public class Course {
         this.name = name;
     }
 
-    public Date getDatetime() {
+    public Timestamp getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Date datetime) {
+    public void setDatetime(Timestamp datetime) {
         this.datetime = datetime;
     }
 
@@ -98,7 +99,7 @@ public class Course {
         this.restriction = restriction;
     }
 
-    public Course(int id, int credit, String name, Date datetime, int duration
+    public Course(int id, int credit, String name, Timestamp datetime, int duration
             , String location, int moduleId, int maxNumber, String restriction) {
         this.id = id;
         this.credit = credit;
@@ -111,7 +112,7 @@ public class Course {
         this.restriction = restriction;
     }
 
-     public Course(int id, int credit, String name, Date datetime, int duration
+     public Course(int id, int credit, String name, Timestamp datetime, int duration
             , String location, int moduleId, int maxNumber, String restriction, List<User> students) {
         this.id = id;
         this.credit = credit;

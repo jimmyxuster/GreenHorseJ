@@ -58,7 +58,7 @@
         <th>操作</th>
     </tr>
     <%
-        SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:SS");
         for (Course course : courses) {
             String time = df.format(course.getDatetime());
     %>
