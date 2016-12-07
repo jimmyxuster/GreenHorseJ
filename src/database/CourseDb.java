@@ -376,13 +376,14 @@ public class CourseDb {
 //        mysql_close($link);
 //        return $result;
 //    }
-    public static ResultSet selectTakecourseAndUserInfoByCourseId(int courseId) {
+    public static List<Object> selectTakecourseAndUserInfoByCourseId(int courseId) {
         String sql = "select takecourse.*,user.name from takecourse left outer join user " +
           "on user.id = takecourse.studentId where takecourse.courseId = " + courseId;
         mSqlHelper = new DatabaseBasic();
-        ResultSet resultSet = mSqlHelper.executeSql(sql);
-        mSqlHelper.recycle();
-        return resultSet;
+        List result = new ArrayList();
+        result.add(mSqlHelper.executeSql(sql));
+        result.add(mSqlHelper);
+        return result;
     }
 
     public static boolean courseNotExists(String name){

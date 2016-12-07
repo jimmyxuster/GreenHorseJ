@@ -68,7 +68,7 @@
 <script>
     var attendance = {};
     function clickExport(courseId){
-        location.href='Do/attendanceTable.php?courseId='+courseId;
+        location.href='Do/attendanceTable.jsp?courseId='+courseId;
     }
     function onSave(){
         document.getElementById('studentAttendance').value = JSON.stringify(attendance);

@@ -1,6 +1,7 @@
 package database;
 
 
+import java.lang.*;
 import java.sql.*;
 
 /**
@@ -24,7 +25,7 @@ public class DatabaseBasic {
             System.out.println("connecting...");
 
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                java.lang.Class.forName("com.mysql.jdbc.Driver");
                 DriverManager.registerDriver(new com.mysql.jdbc.Driver());
                 String url = "jdbc:mysql://" + host + ":" + port + "/" + dbname + "?useUnicode=true&characterEncoding=UTF-8";
                 return DriverManager.getConnection(url, user, pwd);
