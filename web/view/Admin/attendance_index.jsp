@@ -45,6 +45,7 @@
     %>
 </head>
 <body>
+<%@include file="head.jsp"%>
 <h1 class = "page_title">考勤</h1>
 <select id='status' onchange='selectCourseStatus(this.value)'>
     <option value='todo'<%=todoSelected%>>未开始的课程</option>

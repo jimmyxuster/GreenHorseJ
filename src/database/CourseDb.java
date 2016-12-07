@@ -176,7 +176,7 @@ public class CourseDb {
         return null;
     }
 
-    private static void getUsers(List<User> result, ResultSet resultSet) {
+    public static void getUsers(List<User> result, ResultSet resultSet) {
         try {
             while (resultSet.next()) {
                 User user = new User(resultSet.getString("id"),

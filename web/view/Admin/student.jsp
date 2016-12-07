@@ -64,13 +64,15 @@
     %>
 </head>
 <body>
+<%@include file="head.jsp"%>
 <h1 class = "page_title">学生&nbsp;<i class="icon icon_actionSheet" onclick='onImport()'></i></h1>
 
 <div align='center'>
     <form action='student.jsp' method='get'>
         学号<input type='text' placeholder='学号' name='searchId'/>
         姓名<input type='text' placeholder='姓名' name='searchName'/>
-        班级<input type='text' placeholder='班级' name='searchClassName' value="<%=request.getParameter("searchClassName")%>"/>
+        班级<input type='text' placeholder='班级' name='searchClassName' value=
+            "<%=request.getParameter("searchClassName")==null?"":request.getParameter("searchClassName")%>"/>
         <input class="weui_btn weui_btn_mini weui_btn_primary" style = "position: relative" type='submit' value='查找'/>
     </form>
 </div>
@@ -125,14 +127,14 @@
     {
         if (window.confirm("将要把这个学生从数据库中删除。确定吗?"))
         {
-            location.href = 'Do/doRemoveStudent.php?studentId='+studentId;
+            location.href = 'Do/doRemoveStudent.jsp?studentId='+studentId;
         }
     }
     function onName(userId){
 
     }
     function onImport(){
-        location.href='importStudent.php';
+        location.href='importStudent.jsp';
     }
 </script>
 </html>

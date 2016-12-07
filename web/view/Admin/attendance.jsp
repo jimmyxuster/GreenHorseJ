@@ -25,6 +25,7 @@
     %>
 </head>
 <body>
+<%@include file="head.jsp"%>
 <h1 class = "page_title"><%=course.getName()%>考勤</h1>
 <table class = "zebra">
     <thead>

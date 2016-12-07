@@ -18,7 +18,7 @@ public class UserDb{
         String sql = "select * from user where id = \'" + id + "\'";
         mSqlHelper = new DatabaseBasic();
         ResultSet resultSet = mSqlHelper.executeSql(sql);
-        user = getUser(resultSet, mSqlHelper);
+        user = getUserNoJoin(resultSet, mSqlHelper);
         return user;
     }
 
@@ -42,6 +42,33 @@ public class UserDb{
         mSqlHelper.recycle();
         return user;
     }
+
+    private static User getUserNoJoin(ResultSet resultSet, DatabaseBasic mSqlHelper) {
+        User user = null;
+        try {
+            if (resultSet.next()) {
+                user = new User(resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("sex"),
+                        resultSet.getString("institute"),
+                        resultSet.getString("branch"),
+                        resultSet.getString("grade"),
+                        resultSet.getString("type"),
+                        resultSet.getString("dormitory"),
+                        resultSet.getString("permission"),
+                        resultSet.getString("tel"),
+                        resultSet.getString("email"),
+                        resultSet.getString("createTime"),
+                        resultSet.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mSqlHelper.recycle();
+        }
+        return user;
+    }
+
 
     private static User getUser(ResultSet resultSet, DatabaseBasic mSqlHelper) {
         User user = null;
@@ -108,6 +135,12 @@ public class UserDb{
     private static void execSql(String sql) {
         mSqlHelper = new DatabaseBasic();
         mSqlHelper.executeSql(sql);
+        mSqlHelper.recycle();
+    }
+
+    private static void execSqlUpdate(String sql) {
+        mSqlHelper = new DatabaseBasic();
+        mSqlHelper.executeSqlUpdate(sql);
         mSqlHelper.recycle();
     }
 
@@ -195,6 +228,6 @@ public class UserDb{
     public static void removeStudent(String studentId)
     {
         String sql = "delete from user where id = \'" + studentId + "\'";
-        execSql(sql);
+        execSqlUpdate(sql);
     }
 }
