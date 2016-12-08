@@ -5,14 +5,24 @@ package database;
  */
 public class Credit {
     private String userId;
+    private String name;
     private int credit;
 
-    public Credit(String userId, int credit) {
+    public Credit(String userId, String name, int credit) {
         this.userId = userId;
         this.credit = credit;
+        this.name = name;
     }
 
     public Credit() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUserId() {

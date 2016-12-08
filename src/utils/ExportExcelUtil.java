@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -14,6 +15,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  * Created by jimmyhsu on 2016/12/7.
@@ -32,7 +34,8 @@ public class ExportExcelUtil {
      * @return 返回一个HSSFWorkbook
      * @throws Exception
      */
-    public static <T> HSSFWorkbook export(HttpServletResponse response, String fileName, String[] excelHeader,
+    public static <T> HSSFWorkbook export(HttpServletResponse response, String fileName,
+                                          String bigTitle, String[] excelHeader,
                                           Collection<T> dataList) throws Exception {
         // 设置请求
         response.setContentType("application/application/vnd.ms-excel");
@@ -52,7 +55,7 @@ public class ExportExcelUtil {
         titleStyle.setVerticalAlignment(VerticalAlignment.CENTER); // 垂直居中
         // 设置字体样式
         Font titleFont = wb.createFont();
-        titleFont.setFontHeightInPoints((short) 15); // 字体高度
+//        titleFont.setFontHeightInPoints((short) 15); // 字体高度
         titleFont.setFontName("黑体"); // 字体样式
         titleStyle.setFont(titleFont);
         // 在Workbook中添加一个sheet,对应Excel文件中的sheet
@@ -67,7 +70,14 @@ public class ExportExcelUtil {
             fieldArray[i] = tempArray[1];
         }
         // 在sheet中添加标题行
-        HSSFRow row = sheet.createRow((int) 0);// 行数从0开始
+        HSSFRow bigTitleRow = sheet.createRow(0);// 行数从0开始
+        HSSFCell bigTitleCell = bigTitleRow.createCell(0);
+        bigTitleCell.setCellValue(bigTitle);
+        bigTitleCell.setCellStyle(titleStyle);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, titleArray.length));
+        sheet.autoSizeColumn(0, true);
+
+        HSSFRow row = sheet.createRow(1);
         HSSFCell sequenceCell = row.createCell(0);// cell列 从0开始 第一列添加序号
         sequenceCell.setCellValue("序号");
         sequenceCell.setCellStyle(titleStyle);
@@ -99,7 +109,7 @@ public class ExportExcelUtil {
         int index = 0;
         while (it.hasNext()) {
             index++;// 0号位被占用 所以+1
-            row = sheet.createRow(index);
+            row = sheet.createRow(index + 1);
             // 为序号赋值
             HSSFCell sequenceCellValue = row.createCell(0);// 序号值永远是第0列
             sequenceCellValue.setCellValue(index);
@@ -114,8 +124,8 @@ public class ExportExcelUtil {
                 String fieldName = fieldArray[i];
                 String getMethodName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);// 取得对应getXxx()方法
                 Class<? extends Object> tCls = t.getClass();// 泛型为Object以及所有Object的子类
-                Method getMethod = tCls.getMethod(getMethodName, new Class[]{});// 通过方法名得到对应的方法
-                Object value = getMethod.invoke(t, new Object[]{});// 动态调用方,得到属性值
+                Method getMethod = tCls.getMethod(getMethodName);// 通过方法名得到对应的方法
+                Object value = getMethod.invoke(t);// 动态调用方,得到属性值
                 if (value != null) {
                     dataCell.setCellValue(value.toString());// 为当前列赋值
                 }

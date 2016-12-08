@@ -114,7 +114,7 @@
         location.href = 'attendance.jsp?courseId='+courseId;
     }
     function onTable(courseId){
-        location.href = 'do/attendanceTable.jsp?courseId='+courseId;
+        location.href = 'Do/attendanceTable.jsp?courseId='+courseId;
     }
     function onPreviousPage(page){
         if(page>=2)
