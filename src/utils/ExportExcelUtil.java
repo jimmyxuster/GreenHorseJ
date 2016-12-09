@@ -27,6 +27,8 @@ public class ExportExcelUtil {
      *   请求
      * @param fileName
      *   文件名 如："学生表"
+     * @param bigTitle
+     *   Excel的第一行标题
      * @param excelHeader
      *   excel表头数组，存放"姓名#name"格式字符串，"姓名"为excel标题行， "name"为对象字段名
      * @param dataList
