@@ -161,16 +161,25 @@ public class UserDb{
         List<User> result = new ArrayList<>();
         String sql = "select * from userWithClass ";
         if(conditions != null && conditions.size() > 0) {
-            sql += " where ";
+            boolean isFirst = true;
             Set<String> keys = conditions.keySet();
             for (String key : keys) {
+                if (conditions.get(key) == null || "".equals(conditions.get(key)) || conditions.get(key).equals("null")) {
+                    continue;
+                }
+                if (isFirst) {
+                    sql += " where ";
+                    isFirst = false;
+                }
                 String value = conditions.get(key);
                 sql += (key + " = \'" + value + "\' and ");
             }
-            sql = sql.substring(0, sql.lastIndexOf("and"));
+            if (!isFirst) {
+                sql = sql.substring(0, sql.lastIndexOf("and"));
+            }
         }
         if(orderby != null && !orderby.equals("")){
-            sql += " order by " + orderby + "　";
+            sql += " order by " + orderby;
         }
         sql += " limit " + start + ',' + length;
         mSqlHelper = new DatabaseBasic();
@@ -182,7 +191,6 @@ public class UserDb{
     private static void getUsers(List<User> result, ResultSet resultSet) {
         try {
             while (resultSet.next()) {
-                System.out.println(11);
                 User user = new User(resultSet.getString("id"),
                         resultSet.getString("name"),
                         resultSet.getString("sex"),

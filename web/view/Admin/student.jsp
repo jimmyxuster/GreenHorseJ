@@ -50,7 +50,7 @@
             }
         }
         if(request.getParameter("orderby") != null && !request.getParameter("orderby").equals("")){
-            orderby = request.getParameter("orderby");
+            orderby = StringUtils.getUtf8String(request.getParameter("orderby"));
         }
         users = UserDb.selectUserByConditions(conditions, orderby, pageNum * limit, limit);
         int next = pageNum;
@@ -72,7 +72,7 @@
         学号<input type='text' placeholder='学号' name='searchId'/>
         姓名<input type='text' placeholder='姓名' name='searchName'/>
         班级<input type='text' placeholder='班级' name='searchClassName' value=
-            "<%=request.getParameter("searchClassName")==null?"":request.getParameter("searchClassName")%>"/>
+            "<%=request.getParameter("searchClassName")==null || request.getParameter("searchClassName").equals("null")?"":request.getParameter("searchClassName")%>"/>
         <input class="weui_btn weui_btn_mini weui_btn_primary" style = "position: relative" type='submit' value='查找'/>
     </form>
 </div>
